@@ -1,0 +1,29 @@
+<div class="flex min-h-dvh flex-col bg-slate-50">
+  <nav class="border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+      <a routerLink="/home" class="text-lg font-semibold text-slate-900">
+        Investment Tracker
+      </a>
+      <div class="flex gap-1">
+        <a
+          routerLink="/home"
+          routerLinkActive="bg-emerald-50 text-emerald-700"
+          class="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+        >
+          Home
+        </a>
+        <a
+          routerLink="/update"
+          routerLinkActive="bg-emerald-50 text-emerald-700"
+          class="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+        >
+          Update
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">
+    <router-outlet />
+  </main>
+</div>

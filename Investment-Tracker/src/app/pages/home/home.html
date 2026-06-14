@@ -1,0 +1,134 @@
+<div class="space-y-8">
+  <header>
+    <h1 class="text-2xl font-semibold text-slate-900">Portfolio Overview</h1>
+    <p class="mt-1 text-sm text-slate-600">
+      Track how much you've put in versus what your investments are worth today.
+    </p>
+  </header>
+
+  <!-- Summary cards -->
+  <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <p class="text-sm font-medium text-slate-500">Total Contributed</p>
+      <p class="mt-2 text-2xl font-semibold text-slate-900">
+        {{ summary().totalContributed | currency }}
+      </p>
+    </div>
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <p class="text-sm font-medium text-slate-500">Current Value</p>
+      <p class="mt-2 text-2xl font-semibold text-slate-900">
+        {{ summary().totalCurrentValue | currency }}
+      </p>
+    </div>
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <p class="text-sm font-medium text-slate-500">Gain / Loss</p>
+      <p
+        class="mt-2 text-2xl font-semibold"
+        [class.text-emerald-600]="summary().totalGainLoss >= 0"
+        [class.text-red-600]="summary().totalGainLoss < 0"
+      >
+        {{ summary().totalGainLoss | currency }}
+      </p>
+    </div>
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <p class="text-sm font-medium text-slate-500">Return</p>
+      <p
+        class="mt-2 text-2xl font-semibold"
+        [class.text-emerald-600]="summary().totalGainLossPercent >= 0"
+        [class.text-red-600]="summary().totalGainLossPercent < 0"
+      >
+        {{ summary().totalGainLossPercent | number: '1.1-1' }}%
+      </p>
+    </div>
+  </section>
+
+  <!-- Portfolio comparison chart -->
+  <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+      <h2 class="text-lg font-semibold text-slate-900">Contributed vs. Current Value</h2>
+      <div class="flex gap-4 text-sm">
+        <span class="flex items-center gap-2">
+          <span class="h-3 w-3 rounded-sm bg-slate-400"></span>
+          Contributed
+        </span>
+        <span class="flex items-center gap-2">
+          <span class="h-3 w-3 rounded-sm bg-emerald-500"></span>
+          Current Value
+        </span>
+      </div>
+    </div>
+
+    <div class="space-y-5">
+      @for (investment of investments(); track investment.id) {
+        <div>
+          <div class="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+            <div>
+              <span class="font-medium text-slate-900">{{ investment.name }}</span>
+              @if (investment.symbol) {
+                <span class="ml-2 text-xs font-mono text-slate-500">{{ investment.symbol }}</span>
+              }
+              <span class="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+                {{ typeLabels[investment.type] }}
+              </span>
+            </div>
+            <span
+              class="text-sm font-medium"
+              [class.text-emerald-600]="gainLoss(investment) >= 0"
+              [class.text-red-600]="gainLoss(investment) < 0"
+            >
+              {{ gainLoss(investment) | currency }}
+              ({{ gainLossPercent(investment) | number: '1.1-1' }}%)
+            </span>
+          </div>
+          <div class="space-y-1.5">
+            <div class="flex items-center gap-3">
+              <div class="h-6 flex-1 overflow-hidden rounded-md bg-slate-100">
+                <div
+                  class="h-full rounded-md bg-slate-400 transition-all duration-500"
+                  [style.width.%]="contributedBarWidth(investment)"
+                ></div>
+              </div>
+              <span class="w-24 text-right text-sm text-slate-600">
+                {{ investment.totalContributed | currency }}
+              </span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="h-6 flex-1 overflow-hidden rounded-md bg-slate-100">
+                <div
+                  class="h-full rounded-md bg-emerald-500 transition-all duration-500"
+                  [style.width.%]="currentBarWidth(investment)"
+                ></div>
+              </div>
+              <span class="w-24 text-right text-sm font-medium text-slate-900">
+                {{ investment.currentValue | currency }}
+              </span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Allocation by type -->
+  <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <h2 class="mb-4 text-lg font-semibold text-slate-900">Allocation by Type</h2>
+    <div class="flex h-8 overflow-hidden rounded-lg">
+      @for (investment of investments(); track investment.id) {
+        <div
+          class="allocation-segment transition-all"
+          [style.flex-grow]="investment.currentValue"
+          [attr.title]="investment.name + ': ' + (investment.currentValue | currency)"
+          [attr.data-type]="investment.type"
+        ></div>
+      }
+    </div>
+    <ul class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      @for (investment of investments(); track investment.id) {
+        <li class="flex items-center gap-2 text-sm text-slate-700">
+          <span class="allocation-dot" [attr.data-type]="investment.type"></span>
+          {{ investment.name }} — {{ investment.currentValue | currency }}
+        </li>
+      }
+    </ul>
+  </section>
+</div>

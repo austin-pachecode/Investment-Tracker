@@ -1,0 +1,54 @@
+.allocation-segment[data-type='retirement'] {
+  background-color: #6366f1;
+}
+
+.allocation-segment[data-type='savings'] {
+  background-color: #0ea5e9;
+}
+
+.allocation-segment[data-type='stocks'] {
+  background-color: #10b981;
+}
+
+.allocation-segment[data-type='bonds'] {
+  background-color: #f59e0b;
+}
+
+.allocation-segment[data-type='crypto'] {
+  background-color: #8b5cf6;
+}
+
+.allocation-segment[data-type='other'] {
+  background-color: #64748b;
+}
+
+.allocation-dot {
+  display: inline-block;
+  height: 0.625rem;
+  width: 0.625rem;
+  border-radius: 9999px;
+}
+
+.allocation-dot[data-type='retirement'] {
+  background-color: #6366f1;
+}
+
+.allocation-dot[data-type='savings'] {
+  background-color: #0ea5e9;
+}
+
+.allocation-dot[data-type='stocks'] {
+  background-color: #10b981;
+}
+
+.allocation-dot[data-type='bonds'] {
+  background-color: #f59e0b;
+}
+
+.allocation-dot[data-type='crypto'] {
+  background-color: #8b5cf6;
+}
+
+.allocation-dot[data-type='other'] {
+  background-color: #64748b;
+}
